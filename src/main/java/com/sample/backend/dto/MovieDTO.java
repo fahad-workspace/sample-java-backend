@@ -1,5 +1,6 @@
 package com.sample.backend.dto;
 
+import com.sample.backend.model.Genre;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import java.time.LocalDate;
@@ -18,8 +19,8 @@ public record MovieDTO(
             example = "The Shawshank Redemption",
             requiredMode = RequiredMode.REQUIRED)
         String title,
-    @Schema(description = "Movie genre", example = "Drama", requiredMode = RequiredMode.REQUIRED)
-        String genre,
+    @Schema(description = "Movie genre", example = "SCI_FI", requiredMode = RequiredMode.REQUIRED)
+        Genre genre,
     @Schema(
             description = "Release date",
             example = "1994-09-23",

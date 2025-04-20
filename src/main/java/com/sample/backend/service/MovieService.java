@@ -4,6 +4,7 @@ import com.sample.backend.dto.MovieDTO;
 import com.sample.backend.exception.EntityNotFoundException;
 import com.sample.backend.mapper.MovieMapper;
 import com.sample.backend.model.Director;
+import com.sample.backend.model.Genre;
 import com.sample.backend.model.Movie;
 import com.sample.backend.model.Movie.MovieBuilder;
 import com.sample.backend.repository.DirectorRepository;
@@ -75,9 +76,16 @@ public class MovieService extends BaseService<Movie, Long> {
    * @param genre Genre to search for
    * @return List of matching movie DTOs
    */
-  public List<MovieDTO> getMoviesByGenre(String genre) {
+  public List<MovieDTO> getMoviesByGenre(Genre genre) {
     log.debug("Searching movies with genre: {}", genre);
     return movieRepository.findByGenre(genre).stream()
+        .map(MovieMapper::toDTO)
+        .collect(Collectors.toList());
+  }
+
+  public List<MovieDTO> getMoviesByTitleAndGenre(String title, Genre genre) {
+    log.debug("Searching movies with title containing: {} and genre: {}", title, genre);
+    return movieRepository.findByTitleContainingIgnoreCaseAndGenre(title, genre).stream()
         .map(MovieMapper::toDTO)
         .collect(Collectors.toList());
   }
@@ -224,8 +232,13 @@ public class MovieService extends BaseService<Movie, Long> {
               break;
             case "genre":
               if (value != null) {
-                movie.setGenre((String) value);
-                log.debug("Updated movie genre to: {}", value);
+                try {
+                  movie.setGenre(Genre.valueOf(value.toString().toUpperCase()));
+                  log.debug("Updated movie genre to: {}", value);
+                } catch (IllegalArgumentException e) {
+                  log.error("Invalid genre value: {}", value);
+                  throw new IllegalArgumentException("Invalid genre: " + value);
+                }
               }
               break;
             case "releaseDate":

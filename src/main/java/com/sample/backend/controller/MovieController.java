@@ -2,6 +2,7 @@ package com.sample.backend.controller;
 
 import com.sample.backend.config.ApiStandardResponses;
 import com.sample.backend.dto.MovieDTO;
+import com.sample.backend.model.Genre;
 import com.sample.backend.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -86,16 +87,28 @@ public class MovieController {
       @Parameter(description = "Movie title (partial match)") @RequestParam(required = false)
           String title,
       @Parameter(description = "Movie genre (exact match)") @RequestParam(required = false)
-          String genre) {
+          Genre genre) {
+    log.info("REST request to search movies with title: {} and genre: {}", title, genre);
+    if (((title != null) && !title.isEmpty()) && (genre != null)) {
+      try {
+        return ResponseEntity.ok(movieService.getMoviesByTitleAndGenre(title, genre));
+      } catch (IllegalArgumentException e) {
+        log.error("Invalid genre: {}", genre);
+        return ResponseEntity.badRequest().build();
+      }
+    }
     if ((title != null) && !title.isEmpty()) {
-      log.info("REST request to search movies by title: {}", title);
       return ResponseEntity.ok(movieService.getMoviesByTitle(title));
     }
-    if ((genre != null) && !genre.isEmpty()) {
-      log.info("REST request to search movies by genre: {}", genre);
-      return ResponseEntity.ok(movieService.getMoviesByGenre(genre));
+    if (genre != null) {
+      try {
+        return ResponseEntity.ok(movieService.getMoviesByGenre(genre));
+      } catch (IllegalArgumentException e) {
+        log.error("Invalid genre: {}", genre);
+        return ResponseEntity.badRequest().build();
+      }
     }
-    log.info("REST request to search movies with no parameters, returning all movies");
+    log.info("No search parameters provided, returning all movies");
     return ResponseEntity.ok(movieService.getAllMovies());
   }
 

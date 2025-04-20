@@ -2,6 +2,7 @@ package com.sample.backend.config;
 
 import com.sample.backend.model.Actor;
 import com.sample.backend.model.Director;
+import com.sample.backend.model.Genre;
 import com.sample.backend.model.Movie;
 import com.sample.backend.model.Role;
 import com.sample.backend.repository.ActorRepository;
@@ -79,7 +80,7 @@ public class DataInitializer implements CommandLineRunner {
     Movie inception =
         Movie.builder()
             .title("Inception")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2010, 7, 16))
             .durationMinutes(148)
             .director(christopherNolan)
@@ -88,7 +89,7 @@ public class DataInitializer implements CommandLineRunner {
     Movie darkKnight =
         Movie.builder()
             .title("The Dark Knight")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2008, 7, 18))
             .durationMinutes(152)
             .director(christopherNolan)
@@ -97,7 +98,7 @@ public class DataInitializer implements CommandLineRunner {
     Movie pulpFiction =
         Movie.builder()
             .title("Pulp Fiction")
-            .genre("Crime")
+            .genre(Genre.CRIME)
             .releaseDate(LocalDate.of(1994, 10, 14))
             .durationMinutes(154)
             .director(quentinTarantino)

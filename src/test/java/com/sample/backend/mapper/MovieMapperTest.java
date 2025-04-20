@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.sample.backend.dto.MovieDTO;
 import com.sample.backend.model.Director;
+import com.sample.backend.model.Genre;
 import com.sample.backend.model.Movie;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -31,7 +32,7 @@ class MovieMapperTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .director(director)
@@ -40,7 +41,7 @@ class MovieMapperTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .directorId(1L)
@@ -66,7 +67,7 @@ class MovieMapperTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .build();
@@ -106,14 +107,14 @@ class MovieMapperTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .director(director)
             .build();
     MovieMapper.updateMovieFromDTO(existingMovie, partialDTO);
     assertEquals("Interstellar: Extended Edition", existingMovie.getTitle());
-    assertEquals("Sci-Fi", existingMovie.getGenre());
+    assertEquals(Genre.SCI_FI, existingMovie.getGenre());
     assertEquals(LocalDate.of(2014, 11, 7), existingMovie.getReleaseDate());
     assertEquals(169, existingMovie.getDurationMinutes());
     assertEquals(director, existingMovie.getDirector());
@@ -124,7 +125,7 @@ class MovieMapperTest {
     MovieDTO fullDTO =
         MovieDTO.builder()
             .title("Interstellar: Extended Edition")
-            .genre("Science Fiction")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 12, 1))
             .durationMinutes(190)
             .build();
@@ -132,14 +133,14 @@ class MovieMapperTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .director(director)
             .build();
     MovieMapper.updateMovieFromDTO(existingMovie, fullDTO);
     assertEquals("Interstellar: Extended Edition", existingMovie.getTitle());
-    assertEquals("Science Fiction", existingMovie.getGenre());
+    assertEquals(Genre.SCI_FI, existingMovie.getGenre());
     assertEquals(LocalDate.of(2014, 12, 1), existingMovie.getReleaseDate());
     assertEquals(190, existingMovie.getDurationMinutes());
     // Director should remain unchanged

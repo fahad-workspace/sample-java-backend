@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import com.sample.backend.dto.MovieDTO;
 import com.sample.backend.exception.EntityNotFoundException;
 import com.sample.backend.model.Director;
+import com.sample.backend.model.Genre;
 import com.sample.backend.model.Movie;
 import com.sample.backend.repository.DirectorRepository;
 import com.sample.backend.repository.MovieRepository;
@@ -49,7 +50,7 @@ class MovieServiceTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .director(director)
@@ -58,7 +59,7 @@ class MovieServiceTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .directorId(1L)
@@ -97,8 +98,8 @@ class MovieServiceTest {
 
   @Test
   void getMoviesByGenre_ShouldReturnMatchingMovies() {
-    when(movieRepository.findByGenre("Sci-Fi")).thenReturn(List.of(movie));
-    List<MovieDTO> result = movieService.getMoviesByGenre("Sci-Fi");
+    when(movieRepository.findByGenre(Genre.SCI_FI)).thenReturn(List.of(movie));
+    List<MovieDTO> result = movieService.getMoviesByGenre(Genre.SCI_FI);
     assertEquals(1, result.size());
     assertEquals(movieDTO, result.getFirst());
   }
@@ -108,7 +109,7 @@ class MovieServiceTest {
     MovieDTO newMovieDTO =
         MovieDTO.builder()
             .title("Tenet")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(150)
             .build();
@@ -116,7 +117,7 @@ class MovieServiceTest {
         Movie.builder()
             .id(2L)
             .title("Tenet")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(150)
             .build();
@@ -124,7 +125,7 @@ class MovieServiceTest {
         MovieDTO.builder()
             .id(2L)
             .title("Tenet")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(150)
             .build();
@@ -138,7 +139,7 @@ class MovieServiceTest {
     MovieDTO newMovieDTO =
         MovieDTO.builder()
             .title("Tenet")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(150)
             .directorId(1L)
@@ -147,7 +148,7 @@ class MovieServiceTest {
         Movie.builder()
             .id(2L)
             .title("Tenet")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(150)
             .director(director)
@@ -156,7 +157,7 @@ class MovieServiceTest {
         MovieDTO.builder()
             .id(2L)
             .title("Tenet")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(150)
             .directorId(1L)
@@ -173,7 +174,7 @@ class MovieServiceTest {
     MovieDTO newMovieDTO =
         MovieDTO.builder()
             .title("Tenet")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(150)
             .directorId(99L)
@@ -187,7 +188,7 @@ class MovieServiceTest {
     MovieDTO fullUpdateDTO =
         MovieDTO.builder()
             .title("Tenet Updated")
-            .genre("Sci-Fi Action")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(151)
             .directorId(1L)
@@ -196,7 +197,7 @@ class MovieServiceTest {
         Movie.builder()
             .id(1L)
             .title("Tenet Updated")
-            .genre("Sci-Fi Action")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(151)
             .director(director)
@@ -205,7 +206,7 @@ class MovieServiceTest {
         MovieDTO.builder()
             .id(1L)
             .title("Tenet Updated")
-            .genre("Sci-Fi Action")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(151)
             .directorId(1L)
@@ -225,7 +226,7 @@ class MovieServiceTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar: Extended Edition")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .director(director)
@@ -234,7 +235,7 @@ class MovieServiceTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar: Extended Edition")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .directorId(1L)
@@ -253,7 +254,7 @@ class MovieServiceTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .director(director)
@@ -262,7 +263,7 @@ class MovieServiceTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .directorId(1L)
@@ -300,7 +301,7 @@ class MovieServiceTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar: Extended Cut")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(195)
             .director(director)
@@ -309,7 +310,7 @@ class MovieServiceTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar: Extended Cut")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(195)
             .directorId(1L)
@@ -340,7 +341,7 @@ class MovieServiceTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .director(newDirector)
@@ -349,7 +350,7 @@ class MovieServiceTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .directorId(2L)
@@ -395,7 +396,7 @@ class MovieServiceTest {
         Movie.builder()
             .id(1L)
             .title("Interstellar: New Title")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .director(director)
@@ -404,7 +405,7 @@ class MovieServiceTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar: New Title")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .directorId(1L)

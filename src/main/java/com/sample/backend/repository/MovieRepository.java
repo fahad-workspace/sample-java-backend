@@ -1,5 +1,6 @@
 package com.sample.backend.repository;
 
+import com.sample.backend.model.Genre;
 import com.sample.backend.model.Movie;
 import jakarta.annotation.Nonnull;
 import java.util.List;
@@ -19,11 +20,14 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
   @Nonnull
   List<Movie> findAll();
 
+  @EntityGraph(attributePaths = {"director"})
+  List<Movie> findByTitleContainingIgnoreCaseAndGenre(String title, Genre genre);
+
   /** Finds movies by partial title match (case insensitive). */
   @EntityGraph(attributePaths = {"director"})
   List<Movie> findByTitleContainingIgnoreCase(String title);
 
   /** Finds movies by exact genre match. */
   @EntityGraph(attributePaths = {"director"})
-  List<Movie> findByGenre(String genre);
+  List<Movie> findByGenre(Genre genre);
 }

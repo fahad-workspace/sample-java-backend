@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sample.backend.dto.MovieDTO;
 import com.sample.backend.exception.EntityNotFoundException;
+import com.sample.backend.model.Genre;
 import com.sample.backend.service.MovieService;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ class MovieControllerTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(169)
             .directorId(1L)
@@ -65,7 +66,7 @@ class MovieControllerTest {
         .andExpect(jsonPath("$", hasSize(1)))
         .andExpect(jsonPath("$[0].id", is(1)))
         .andExpect(jsonPath("$[0].title", is("Interstellar")))
-        .andExpect(jsonPath("$[0].genre", is("Sci-Fi")))
+        .andExpect(jsonPath("$[0].genre", is(Genre.SCI_FI.name())))
         .andExpect(jsonPath("$[0].directorName", is("Christopher Nolan")));
   }
 
@@ -77,7 +78,7 @@ class MovieControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(1)))
         .andExpect(jsonPath("$.title", is("Interstellar")))
-        .andExpect(jsonPath("$.genre", is("Sci-Fi")))
+        .andExpect(jsonPath("$.genre", is(Genre.SCI_FI.name())))
         .andExpect(jsonPath("$.directorName", is("Christopher Nolan")));
   }
 
@@ -101,9 +102,12 @@ class MovieControllerTest {
 
   @Test
   void searchMovies_ByGenre_ShouldReturnMatchingMovies() throws Exception {
-    when(movieService.getMoviesByGenre("Sci-Fi")).thenReturn(List.of(movieDTO));
+    // Update the mock to use the Genre enum
+    when(movieService.getMoviesByGenre(Genre.SCI_FI)).thenReturn(List.of(movieDTO));
+    // If using the enum display name approach, use the URL parameter that matches how your
+    // controller expects it
     mockMvc
-        .perform(get("/api/movies/search?genre=Sci-Fi"))
+        .perform(get("/api/movies/search?genre=" + Genre.SCI_FI.name()))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(1)))
         .andExpect(jsonPath("$[0].id", is(1)))
@@ -126,7 +130,7 @@ class MovieControllerTest {
     MovieDTO newMovie =
         MovieDTO.builder()
             .title("Tenet")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(150)
             .directorId(1L)
@@ -135,7 +139,7 @@ class MovieControllerTest {
         MovieDTO.builder()
             .id(2L)
             .title("Tenet")
-            .genre("Action")
+            .genre(Genre.ACTION)
             .releaseDate(LocalDate.of(2020, 9, 3))
             .durationMinutes(150)
             .directorId(1L)
@@ -150,7 +154,7 @@ class MovieControllerTest {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.id", is(2)))
         .andExpect(jsonPath("$.title", is("Tenet")))
-        .andExpect(jsonPath("$.genre", is("Action")))
+        .andExpect(jsonPath("$.genre", is(Genre.ACTION.name())))
         .andExpect(jsonPath("$.directorName", is("Christopher Nolan")));
   }
 
@@ -159,7 +163,7 @@ class MovieControllerTest {
     MovieDTO updateMovie =
         MovieDTO.builder()
             .title("Interstellar: Extended Edition")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(180)
             .directorId(1L)
@@ -168,7 +172,7 @@ class MovieControllerTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar: Extended Edition")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(180)
             .directorId(1L)
@@ -191,7 +195,7 @@ class MovieControllerTest {
     MovieDTO updateMovie =
         MovieDTO.builder()
             .title("Interstellar: Extended Edition")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(180)
             .directorId(1L)
@@ -229,7 +233,7 @@ class MovieControllerTest {
         MovieDTO.builder()
             .id(1L)
             .title("Interstellar: Director's Cut")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2014, 11, 7))
             .durationMinutes(180)
             .directorId(1L)
@@ -245,7 +249,7 @@ class MovieControllerTest {
         .andExpect(jsonPath("$.id", is(1)))
         .andExpect(jsonPath("$.title", is("Interstellar: Director's Cut")))
         .andExpect(jsonPath("$.durationMinutes", is(180)))
-        .andExpect(jsonPath("$.genre", is("Sci-Fi")));
+        .andExpect(jsonPath("$.genre", is(Genre.SCI_FI.name())));
   }
 
   @Test

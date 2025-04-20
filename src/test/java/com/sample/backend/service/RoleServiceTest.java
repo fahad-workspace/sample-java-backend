@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import com.sample.backend.dto.RoleDTO;
 import com.sample.backend.exception.EntityNotFoundException;
 import com.sample.backend.model.Actor;
+import com.sample.backend.model.Genre;
 import com.sample.backend.model.Movie;
 import com.sample.backend.model.Role;
 import com.sample.backend.repository.ActorRepository;
@@ -43,7 +44,7 @@ class RoleServiceTest {
         Movie.builder()
             .id(1L)
             .title("Inception")
-            .genre("Sci-Fi")
+            .genre(Genre.SCI_FI)
             .releaseDate(LocalDate.of(2010, 7, 16))
             .durationMinutes(148)
             .build();

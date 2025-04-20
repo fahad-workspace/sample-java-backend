@@ -2,6 +2,8 @@ package com.sample.backend.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,7 +38,10 @@ public class Movie {
 
   // Basic movie information
   private String title;
-  private String genre;
+
+  @Enumerated(EnumType.STRING)
+  private Genre genre; // Change from String to Genre
+
   private LocalDate releaseDate;
   private Integer durationMinutes;
 
