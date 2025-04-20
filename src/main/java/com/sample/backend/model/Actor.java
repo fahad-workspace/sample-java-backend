@@ -31,7 +31,6 @@ public class Actor {
   private LocalDate birthDate;
   private String nationality;
 
-  // An actor can play multiple roles in different movies
   @Builder.Default
   @BatchSize(size = 500)
   @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL, orphanRemoval = true)

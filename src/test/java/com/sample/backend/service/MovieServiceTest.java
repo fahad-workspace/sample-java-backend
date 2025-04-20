@@ -290,10 +290,8 @@ class MovieServiceTest {
     assertThrows(EntityNotFoundException.class, () -> movieService.deleteMovie(99L));
   }
 
-  // Add to MovieServiceTest.java
   @Test
   void patchMovie_ShouldReturnPatchedMovie_WithMultipleFields() {
-    // Arrange
     Map<String, Object> patches = new HashMap<>();
     patches.put("title", "Interstellar: Extended Cut");
     patches.put("durationMinutes", 195);
@@ -318,15 +316,12 @@ class MovieServiceTest {
             .build();
     when(movieRepository.findById(1L)).thenReturn(Optional.of(movie));
     when(movieRepository.save(any(Movie.class))).thenReturn(patchedMovie);
-    // Act
     MovieDTO result = movieService.patchMovie(1L, patches);
-    // Assert
     assertEquals(patchedMovieDTO, result);
   }
 
   @Test
   void patchMovie_ShouldUpdateDirectorReference_WhenDirectorIdPatched() {
-    // Arrange
     Director newDirector =
         Director.builder()
             .id(2L)
@@ -359,36 +354,29 @@ class MovieServiceTest {
     when(movieRepository.findById(1L)).thenReturn(Optional.of(movie));
     when(directorRepository.findById(2L)).thenReturn(Optional.of(newDirector));
     when(movieRepository.save(any(Movie.class))).thenReturn(patchedMovie);
-    // Act
     MovieDTO result = movieService.patchMovie(1L, patches);
-    // Assert
     assertEquals(patchedMovieDTO, result);
   }
 
   @Test
   void patchMovie_ShouldThrowException_WhenDirectorNotFound() {
-    // Arrange
     Map<String, Object> patches = new HashMap<>();
     patches.put("directorId", 99L);
     when(movieRepository.findById(1L)).thenReturn(Optional.of(movie));
     when(directorRepository.findById(99L)).thenReturn(Optional.empty());
-    // Act & Assert
     assertThrows(EntityNotFoundException.class, () -> movieService.patchMovie(1L, patches));
   }
 
   @Test
   void patchMovie_ShouldThrowException_WhenMovieNotFound() {
-    // Arrange
     Map<String, Object> patches = new HashMap<>();
     patches.put("title", "New Title");
     when(movieRepository.findById(99L)).thenReturn(Optional.empty());
-    // Act & Assert
     assertThrows(EntityNotFoundException.class, () -> movieService.patchMovie(99L, patches));
   }
 
   @Test
   void patchMovie_ShouldIgnoreUnknownFields() {
-    // Arrange
     Map<String, Object> patches = new HashMap<>();
     patches.put("title", "Interstellar: New Title");
     patches.put("unknownField", "some value");
@@ -413,9 +401,7 @@ class MovieServiceTest {
             .build();
     when(movieRepository.findById(1L)).thenReturn(Optional.of(movie));
     when(movieRepository.save(any(Movie.class))).thenReturn(patchedMovie);
-    // Act
     MovieDTO result = movieService.patchMovie(1L, patches);
-    // Assert
     assertEquals(patchedMovieDTO, result);
   }
 }

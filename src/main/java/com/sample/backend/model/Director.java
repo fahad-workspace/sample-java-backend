@@ -31,7 +31,6 @@ public class Director {
   private LocalDate birthDate;
   private String nationality;
 
-  // A director can direct multiple movies
   @Builder.Default
   @BatchSize(size = 500)
   @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)

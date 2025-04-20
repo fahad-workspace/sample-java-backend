@@ -35,7 +35,6 @@ public record PagedResponse<T>(
             requiredMode = RequiredMode.REQUIRED)
         boolean last) {
 
-  // Factory method to create from Spring Page
   public static <T> PagedResponse<T> from(org.springframework.data.domain.Page<T> page) {
     return new PagedResponse<>(
         page.getContent(),

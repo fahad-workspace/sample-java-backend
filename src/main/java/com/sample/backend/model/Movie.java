@@ -36,21 +36,18 @@ public class Movie {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  // Basic movie information
   private String title;
 
   @Enumerated(EnumType.STRING)
-  private Genre genre; // Change from String to Genre
+  private Genre genre;
 
   private LocalDate releaseDate;
   private Integer durationMinutes;
 
-  // Relationship with director (many movies can be directed by one director)
   @ManyToOne
   @JoinColumn(name = "director_id")
   private Director director;
 
-  // Relationship with roles (a movie can have multiple roles)
   @Builder.Default
   @BatchSize(size = 500)
   @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)

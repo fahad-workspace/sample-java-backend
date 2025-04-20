@@ -22,7 +22,6 @@ public final class RoleMapper {
     return builder.build();
   }
 
-  // For partial updates
   public static void updateRoleFromDTO(Role role, RoleDTO dto) {
     if (dto.characterName() != null) {
       role.setCharacterName(dto.characterName());

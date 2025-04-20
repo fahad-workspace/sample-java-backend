@@ -18,7 +18,6 @@ public final class MovieMapper {
       log.debug("Attempted to convert null Movie to DTO");
       return null;
     }
-    // Using builder pattern for cleaner code
     MovieDTOBuilder builder =
         MovieDTO.builder()
             .id(movie.getId())
@@ -26,7 +25,6 @@ public final class MovieMapper {
             .genre(movie.getGenre())
             .releaseDate(movie.getReleaseDate())
             .durationMinutes(movie.getDurationMinutes());
-    // Add director info if available
     if (movie.getDirector() != null) {
       builder
           .directorId(movie.getDirector().getId())

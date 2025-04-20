@@ -34,7 +34,6 @@ public class DataInitializer implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
-    // Create directors using Lombok builders
     Director christopherNolan =
         Director.builder()
             .firstName("Christopher")
@@ -51,7 +50,6 @@ public class DataInitializer implements CommandLineRunner {
             .nationality("American")
             .build();
     directorRepository.save(quentinTarantino);
-    // Create actors using Lombok builders
     Actor leonardoDiCaprio =
         Actor.builder()
             .firstName("Leonardo")
@@ -76,7 +74,6 @@ public class DataInitializer implements CommandLineRunner {
             .nationality("American")
             .build();
     actorRepository.save(samuelJackson);
-    // Create movies using Lombok builders
     Movie inception =
         Movie.builder()
             .title("Inception")
@@ -104,7 +101,6 @@ public class DataInitializer implements CommandLineRunner {
             .director(quentinTarantino)
             .build();
     movieRepository.save(pulpFiction);
-    // Create roles using Lombok builders
     Role cobb =
         Role.builder().characterName("Dom Cobb").movie(inception).actor(leonardoDiCaprio).build();
     roleRepository.save(cobb);

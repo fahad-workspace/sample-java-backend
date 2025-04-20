@@ -25,12 +25,9 @@ class GlobalExceptionHandlerTest {
 
   @Test
   void handleEntityNotFoundException_ShouldReturnNotFound() {
-    // Arrange
     EntityNotFoundException exception = new EntityNotFoundException("Movie not found with ID: 1");
-    // Act
     ResponseEntity<ErrorResponse> response =
         GlobalExceptionHandler.handleEntityNotFoundException(exception, webRequest);
-    // Assert
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertNotNull(response.getBody());
     assertEquals("Not Found", response.getBody().getError());
@@ -41,12 +38,9 @@ class GlobalExceptionHandlerTest {
 
   @Test
   void handleGlobalException_ShouldReturnInternalServerError() {
-    // Arrange
     Exception exception = new RuntimeException("Unexpected error");
-    // Act
     ResponseEntity<ErrorResponse> response =
         GlobalExceptionHandler.handleGlobalException(exception, webRequest);
-    // Assert
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     assertNotNull(response.getBody());
     assertEquals("Internal Server Error", response.getBody().getError());

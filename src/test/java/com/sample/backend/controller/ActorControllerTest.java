@@ -55,12 +55,9 @@ class ActorControllerTest {
 
   @Test
   void getAllActors_ShouldReturnAllActors() throws Exception {
-    // Create a paged response with one actor
     PagedResponse<ActorDTO> pagedResponse =
         new PagedResponse<>(List.of(actorDTO), 0, 10, 1, 1, true, true);
-    // Mock the service call with pagination parameters
     when(actorService.getAllActors(0, 10, "id", "asc")).thenReturn(pagedResponse);
-    // Perform the request and validate the response
     mockMvc
         .perform(get("/api/actors"))
         .andExpect(status().isOk())

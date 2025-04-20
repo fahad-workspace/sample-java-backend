@@ -52,7 +52,6 @@ class ActorMapperTest {
   @Test
   void toEntity_ShouldConvertDTOToEntity() {
     Actor result = ActorMapper.toEntity(actorDTO);
-    // ID should not be set in the toEntity method
     assertNull(result.getId());
     assertEquals(actorDTO.firstName(), result.getFirstName());
     assertEquals(actorDTO.lastName(), result.getLastName());

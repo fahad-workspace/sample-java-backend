@@ -46,15 +46,13 @@ public class DirectorService extends BaseService<Director, Long> {
 
   @Transactional
   public DirectorDTO updateDirector(Long id, DirectorDTO directorDTO) {
-    // Full replacement if all fields are provided
     if ((directorDTO.firstName() != null)
         && (directorDTO.lastName() != null)
         && (directorDTO.birthDate() != null)
         && (directorDTO.nationality() != null)) {
-      // Verify director exists
       findById(id);
       Director director = DirectorMapper.toEntity(directorDTO);
-      director.setId(id); // Keep the same ID
+      director.setId(id);
       Director updatedDirector = directorRepository.save(director);
       return DirectorMapper.toDTO(updatedDirector);
     }

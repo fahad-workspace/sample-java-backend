@@ -26,6 +26,4 @@ import java.lang.annotation.Target;
       description = "Internal Server Error",
       content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 })
-public @interface ApiStandardResponses {
-  // Reusable annotation for standard API responses
-}
+public @interface ApiStandardResponses {}

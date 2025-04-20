@@ -102,10 +102,7 @@ class MovieControllerTest {
 
   @Test
   void searchMovies_ByGenre_ShouldReturnMatchingMovies() throws Exception {
-    // Update the mock to use the Genre enum
     when(movieService.getMoviesByGenre(Genre.SCI_FI)).thenReturn(List.of(movieDTO));
-    // If using the enum display name approach, use the URL parameter that matches how your
-    // controller expects it
     mockMvc
         .perform(get("/api/movies/search?genre=" + Genre.SCI_FI.name()))
         .andExpect(status().isOk())

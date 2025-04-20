@@ -24,12 +24,10 @@ public class Role {
 
   private String characterName;
 
-  // Each role is associated with one movie
   @ManyToOne
   @JoinColumn(name = "movie_id")
   private Movie movie;
 
-  // Each role is played by one actor
   @ManyToOne
   @JoinColumn(name = "actor_id")
   private Actor actor;

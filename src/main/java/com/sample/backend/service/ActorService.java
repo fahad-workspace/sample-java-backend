@@ -52,15 +52,13 @@ public class ActorService extends BaseService<Actor, Long> {
 
   @Transactional
   public ActorDTO updateActor(Long id, ActorDTO actorDTO) {
-    // Full replacement if all fields are provided
     if ((actorDTO.firstName() != null)
         && (actorDTO.lastName() != null)
         && (actorDTO.birthDate() != null)
         && (actorDTO.nationality() != null)) {
-      // Verify actor exists
       findById(id);
       Actor actor = ActorMapper.toEntity(actorDTO);
-      actor.setId(id); // Keep the same ID
+      actor.setId(id);
       Actor updatedActor = actorRepository.save(actor);
       return ActorMapper.toDTO(updatedActor);
     }

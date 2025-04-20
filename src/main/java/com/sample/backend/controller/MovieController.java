@@ -168,7 +168,6 @@ public class MovieController {
     return ResponseEntity.noContent().build();
   }
 
-  // Add to MovieController.java
   @Operation(
       summary = "Patch movie",
       description = "Partially updates an existing movie's information")

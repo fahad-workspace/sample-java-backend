@@ -100,14 +100,12 @@ public class MovieService extends BaseService<Movie, Long> {
   @Transactional
   public MovieDTO createMovie(MovieDTO movieDTO) {
     log.info("Creating new movie: {}", movieDTO.title());
-    // Build the movie entity
     MovieBuilder movieBuilder =
         Movie.builder()
             .title(movieDTO.title())
             .genre(movieDTO.genre())
             .releaseDate(movieDTO.releaseDate())
             .durationMinutes(movieDTO.durationMinutes());
-    // Add director if provided
     if (movieDTO.directorId() != null) {
       log.debug("Fetching director with ID: {} for movie", movieDTO.directorId());
       Director director =
@@ -137,23 +135,19 @@ public class MovieService extends BaseService<Movie, Long> {
   @Transactional
   public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
     log.info("Updating movie with ID: {}", id);
-    // Full replacement if all required fields are provided
     if ((movieDTO.title() != null)
         && (movieDTO.genre() != null)
         && (movieDTO.releaseDate() != null)
         && (movieDTO.durationMinutes() != null)) {
       log.debug("Performing full update of movie with ID: {}", id);
-      // Verify movie exists
       findById(id);
-      // Create new movie with builder
       MovieBuilder movieBuilder =
           Movie.builder()
-              .id(id) // Keep the same ID
+              .id(id)
               .title(movieDTO.title())
               .genre(movieDTO.genre())
               .releaseDate(movieDTO.releaseDate())
               .durationMinutes(movieDTO.durationMinutes());
-      // Set director if provided
       if (movieDTO.directorId() != null) {
         log.debug("Updating director to ID: {} for movie", movieDTO.directorId());
         Director director =
@@ -174,7 +168,6 @@ public class MovieService extends BaseService<Movie, Long> {
     log.debug("Performing partial update of movie with ID: {}", id);
     Movie movie = findById(id);
     MovieMapper.updateMovieFromDTO(movie, movieDTO);
-    // Update director reference if provided
     if (movieDTO.directorId() != null) {
       log.debug("Updating director to ID: {} for movie", movieDTO.directorId());
       Director director =
@@ -206,8 +199,6 @@ public class MovieService extends BaseService<Movie, Long> {
     log.info("Movie with ID: {} deleted successfully", id);
   }
 
-  // Add to MovieService.java
-
   /**
    * Patches a movie with specified field updates.
    *
@@ -220,7 +211,6 @@ public class MovieService extends BaseService<Movie, Long> {
   public MovieDTO patchMovie(Long id, Map<String, Object> updates) {
     log.info("Patching movie with ID: {}", id);
     Movie movie = findById(id);
-    // Apply updates
     updates.forEach(
         (key, value) -> {
           switch (key) {

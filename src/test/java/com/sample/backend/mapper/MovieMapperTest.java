@@ -86,7 +86,6 @@ class MovieMapperTest {
   @Test
   void toEntity_ShouldConvertDTOToEntity() {
     Movie result = MovieMapper.toEntity(movieDTO);
-    // ID and director are not set in the toEntity method
     assertNull(Objects.requireNonNull(result).getId());
     assertNull(result.getDirector());
     assertEquals(movieDTO.title(), result.getTitle());
@@ -143,7 +142,6 @@ class MovieMapperTest {
     assertEquals(Genre.SCI_FI, existingMovie.getGenre());
     assertEquals(LocalDate.of(2014, 12, 1), existingMovie.getReleaseDate());
     assertEquals(190, existingMovie.getDurationMinutes());
-    // Director should remain unchanged
     assertEquals(director, existingMovie.getDirector());
   }
 }

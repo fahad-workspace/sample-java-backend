@@ -52,7 +52,6 @@ class DirectorMapperTest {
   @Test
   void toEntity_ShouldConvertDTOToEntity() {
     Director result = DirectorMapper.toEntity(directorDTO);
-    // ID should not be set in the toEntity method
     assertNull(result.getId());
     assertEquals(directorDTO.firstName(), result.getFirstName());
     assertEquals(directorDTO.lastName(), result.getLastName());

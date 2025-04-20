@@ -37,7 +37,6 @@ class ActorServiceTest {
 
   @BeforeEach
   void setUp() {
-    // Set up test data using builders
     actor =
         Actor.builder()
             .id(1L)
@@ -58,13 +57,10 @@ class ActorServiceTest {
 
   @Test
   void getAllActors_ShouldReturnPagedResponse() {
-    // Arrange
     Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "id"));
     Page<Actor> actorPage = new PageImpl<>(List.of(actor), pageable, 1);
     when(actorRepository.findAll(pageable)).thenReturn(actorPage);
-    // Act
     PagedResponse<ActorDTO> result = actorService.getAllActors(0, 10, "id", "ASC");
-    // Assert
     assertEquals(1, result.content().size());
     assertEquals(actorDTO, result.content().getFirst());
     assertEquals(1, result.totalElements());
@@ -73,33 +69,25 @@ class ActorServiceTest {
 
   @Test
   void getActorById_ShouldReturnActor_WhenActorExists() {
-    // Arrange
     when(actorRepository.findById(1L)).thenReturn(Optional.of(actor));
-    // Act
     ActorDTO result = actorService.getActorById(1L);
-    // Assert
     assertEquals(actorDTO, result);
   }
 
   @Test
   void getActorById_ShouldThrowException_WhenActorDoesNotExist() {
-    // Arrange
     when(actorRepository.findById(99L)).thenReturn(Optional.empty());
-    // Act & Assert
     assertThrows(EntityNotFoundException.class, () -> actorService.getActorById(99L));
   }
 
   @Test
   void searchActors_ShouldReturnMatchingActors() {
-    // Arrange
     Pageable pageable = PageRequest.of(0, 10);
     Page<Actor> actorPage = new PageImpl<>(List.of(actor), pageable, 1);
     when(actorRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
             "Pit", "Pit", pageable))
         .thenReturn(actorPage);
-    // Act
     PagedResponse<ActorDTO> result = actorService.searchActors("Pit", 0, 10);
-    // Assert
     assertEquals(1, result.content().size());
     assertEquals(actorDTO, result.content().getFirst());
     assertEquals(1, result.totalElements());
@@ -108,17 +96,13 @@ class ActorServiceTest {
 
   @Test
   void createActor_ShouldReturnCreatedActor() {
-    // Arrange
     when(actorRepository.save(any(Actor.class))).thenReturn(actor);
-    // Act
     ActorDTO result = actorService.createActor(actorDTO);
-    // Assert
     assertEquals(actorDTO, result);
   }
 
   @Test
   void updateActor_FullUpdate_ShouldReturnUpdatedActor() {
-    // Arrange
     ActorDTO fullUpdateDTO =
         ActorDTO.builder()
             .id(1L)
@@ -137,15 +121,12 @@ class ActorServiceTest {
             .build();
     when(actorRepository.findById(1L)).thenReturn(Optional.of(actor));
     when(actorRepository.save(any(Actor.class))).thenReturn(updatedActor);
-    // Act
     ActorDTO result = actorService.updateActor(1L, fullUpdateDTO);
-    // Assert
     assertEquals(fullUpdateDTO, result);
   }
 
   @Test
   void updateActor_PartialUpdate_ShouldReturnPartiallyUpdatedActor() {
-    // Arrange
     ActorDTO partialUpdateDTO = ActorDTO.builder().firstName("Bradley").build();
     Actor updatedActor =
         Actor.builder()
@@ -165,28 +146,21 @@ class ActorServiceTest {
             .build();
     when(actorRepository.findById(1L)).thenReturn(Optional.of(actor));
     when(actorRepository.save(any(Actor.class))).thenReturn(updatedActor);
-    // Act
     ActorDTO result = actorService.updateActor(1L, partialUpdateDTO);
-    // Assert
     assertEquals(updatedActorDTO, result);
   }
 
   @Test
   void deleteActor_ShouldDeleteActor_WhenActorExists() {
-    // Arrange
     when(actorRepository.existsById(1L)).thenReturn(true);
     doNothing().when(actorRepository).deleteById(1L);
-    // Act
     actorService.deleteActor(1L);
-    // Assert
     verify(actorRepository).deleteById(1L);
   }
 
   @Test
   void deleteActor_ShouldThrowException_WhenActorDoesNotExist() {
-    // Arrange
     when(actorRepository.existsById(99L)).thenReturn(false);
-    // Act & Assert
     assertThrows(EntityNotFoundException.class, () -> actorService.deleteActor(99L));
   }
 }
