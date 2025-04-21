@@ -3,6 +3,7 @@ package com.sample.backend.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 @Schema(description = "Paged response wrapper with navigation metadata")
 public record PagedResponse<T>(
@@ -35,7 +36,7 @@ public record PagedResponse<T>(
             requiredMode = RequiredMode.REQUIRED)
         boolean last) {
 
-  public static <T> PagedResponse<T> from(org.springframework.data.domain.Page<T> page) {
+  public static <T> PagedResponse<T> from(Page<T> page) {
     return new PagedResponse<>(
         page.getContent(),
         page.getNumber(),
